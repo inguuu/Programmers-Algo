@@ -1,0 +1,80 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <map>
+#include <iostream>
+
+
+
+using namespace std;
+
+vector<int> solution(vector<string> gems) {
+    
+   vector<int> answer;
+    map<string,int> m;
+    vector<string> cgems;
+    
+    for(int i=0;i<gems.size();i++){
+        m[gems[i]]=0;
+     
+    }
+    for(int i=0;i<gems.size();i++){
+       cgems.push_back(gems[i]);
+      //  cout<< cgems[i] <<endl;   
+    }
+    
+    int gcount = m.size();
+    int gs = gems.size();
+  //  printf("%d\n",gcount);
+ //   printf("%d\n",gs);
+    int high ,low,sum;
+    int asum = gs;
+    int ahigh = 0;
+    int alow = 0;
+    sum=1;
+    low =0;
+    high = 0;
+     m[cgems[0]]=m[cgems[0]]+1;
+
+    while(high<gs-1){
+   
+  //      printf("%d",high);
+        if(sum==gcount){
+       //      printf("if sum: %d high : %d low: %d bin: %d\n",sum,high,low,m[cgems[low]]);
+            if(high-low+1<asum){
+                alow=low;
+                ahigh=high;
+                asum=high-low+1;
+            }
+            if(m[cgems[low]]==1){
+                --sum; 
+            }
+             m[cgems[low]]=m[cgems[low]]-1;
+            ++low; 
+            if(low>high){
+                high =low;
+            }
+        }else{
+     //       printf("else sum: %d \n",sum);
+            ++high;
+            m[cgems[high]]=m[cgems[high]]+1;
+            if(m[cgems[high]]==1){
+                sum=sum+1; 
+            }
+            if(low>high)high = low;
+        }
+        
+   }
+  //  printf("\n");
+  //  printf("%d %d %d",low,high,sum);
+  //  printf("\n");
+    if(gs==asum)ahigh=gs-1;
+   // printf("%d %d %d",alow+1,ahigh+1,asum);
+    
+    answer.push_back(alow+1);
+    answer.push_back(ahigh+1);
+    return answer;
+}
+//gs 범위 while문 범위로 고생.. 
+//중복값 set map 고민 
+//if일때 m[row]-1 안해서실수 
