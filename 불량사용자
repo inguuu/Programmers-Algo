@@ -1,0 +1,108 @@
+/*
+
+[풀이]
+1. 조건에 맞는 값들 뽑기
+2. 조합을 구하는데 각 자리마다 쓸수 있는게 다름. x의 의미 자리수 재귀의 의미 필..
+3. 다뽑았는데 같은면 같은거다.. 
+
+[오류..]
+1. 각자리마다 뽑는 조합을 생각안했다.
+2. 중복되는 값을 생각안했다.. 
+3. 정렬을 하면 왜 안될까... 고민해보자 
+
+
+*/
+
+
+var check=[0,0,0,0,0,0,0,0,0];
+var check2=[0,0,0,0,0,0,0,0,0];
+var result=[[],[],[],[],[],[],[],[],[],[]];
+
+var answer = 0;
+var end =0;
+
+var arr=[];
+var set = new Set();
+
+function len_check(user_id, banned_id){
+    if(user_id.length==banned_id.length) return 1;
+    else return 0;
+}
+function correct(user_id, banned_id){
+    for(var i =0;i<user_id.length;i++){
+        if(banned_id[i]=='*')continue;
+        if(user_id[i]!=banned_id[i]) return 0;
+    }
+    return 1;
+}
+function getResult(x){
+    if(x==end){
+         var arr2=[0,0,0,0];
+       
+        //  arr2=arr1 왜 안될까......................
+         arr2[0]=arr[0]
+        arr2[1]=arr[1]
+        arr2[2]=arr[2]
+        arr2[3]=arr[3]
+         arr2[4]=arr[4]
+        arr2[5]=arr[5]
+        arr2[6]=arr[6]
+        arr2[7]=arr[7]
+        
+          arr2.sort();
+         //console.log(arr2);
+        var str =""
+        for(var i=0;i<x;i++){
+            str=str+arr2[i];
+        }
+       
+        //console.log(str);
+        set.add(str);
+    }else{
+            for(var j=0;j<result[x].length;j++){
+               var nownum = result[x][j];
+                
+              //  console.log("x: "+(x+1));
+               //console.log(nownum,check2[nownum]);
+              //  if(check2[nownum]==0) console.log("nownum: "+nownum);
+                if(check2[nownum]==0){
+                //    console.log(x,nownum);
+                    
+                    arr[x]=nownum;
+                    check2[nownum]=1;
+                    getResult(x+1);
+                    check2[nownum]=0;
+               //     console.log("x"+x+" j"+j+" nownum"+nownum)
+                    
+               }
+            }  
+    }
+}
+function solution(user_id, banned_id) {
+    
+    for(var i=0;i<banned_id;i++){
+        arr[i]=0
+    }
+    
+    for(var i =0; i<user_id.length;i++){
+        for(var j=0;j<banned_id.length;j++){
+            if(len_check(user_id[i],banned_id[j])==1){
+                if(correct(user_id[i],banned_id[j])==1){
+                        result[j].push(i);
+                        check[i]=1; 
+                }
+            }
+        }
+    }
+    
+    end = banned_id.length;
+    getResult(0);
+ 
+   //  console.log(result[0]);
+   // console.log(result[1]);
+   // console.log(result[2]);
+  //  console.log(result[3]);
+    answer =set.size;
+    
+    return answer;
+}
