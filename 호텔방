@@ -1,0 +1,130 @@
+/*
+## union-find 알고리즘 
+- 다음 노드를 가르키면서 찾는다
+- map을 사용 map[현재방]=다음방
+
+## 오류 
+효율성 시간초과
+1. 2개의 인자를 넘겨서 계산을 한다 => 리턴하는대로 바로 받는다..
+
+ return m[x]=getResult(m[x]);
+ 
+2. for(i~ room.size()) => for(i:room)
+xx = a[i] 이거 하나가 0.1초로 효율성 틀리게 된다.... 2, 3-1 비교
+
+/*
+
+#include <string>
+#include <vector>
+#include <iostream>
+#include <stdio.h>
+#include <map>
+using namespace std;
+
+map<long long, long long> m;
+vector<long long> answer;
+
+1. 정확성만 맞은 경우 
+
+long long getResult(long long now, long long x){
+    if(m[x]==0){
+        m[now]=x;
+        return x;
+    }else{
+        x= m[x];
+        return getResult(now,x);
+    }
+    
+}
+vector<long long> solution(long long k, vector<long long> room_number) {
+    int now =0;
+    for(int i=0;i<room_number.size();i++){
+        now =room_number[i];
+        if(m[now]==0){
+            answer.push_back(now);
+            m[now]=now+1;
+        }else{
+            long long empty = getResult(now,now);
+            m[empty]=empty+1;
+            answer.push_back(empty);
+        }
+    }
+  
+    return answer;
+}
+
+
+2. 효율성 반... 
+
+long long getResult(long long x){
+    if(m[x]==0){
+        return x;
+    }else{
+       
+        return m[x]=getResult(m[x]);
+    }
+    
+}
+vector<long long> solution(long long k, vector<long long> room_number) {
+  
+    int now =0;
+    for(int i=0;i<room_number.size();i++){
+        now =room_number[i]
+            long long empty = getResult(now);
+            m[empty]=empty+1;
+            answer.push_back(empty);
+        
+    }
+  
+    return answer;
+}
+
+
+3-1 성공 
+
+long long getResult(long long x){
+    if(m[x]==0){
+        return x;
+    }else{
+       
+        return m[x]=getResult(m[x]);
+    }
+    
+}
+vector<long long> solution(long long k, vector<long long> room_number) {
+  
+   
+    for(int i=0;i<room_number.size();i++){
+            long long empty = getResult(room_number[i]);
+            m[empty]=empty+1;
+            answer.push_back(empty);
+        
+    }
+  
+    return answer;
+}
+
+
+3-2 성공 
+
+long long getResult(long long x){
+    if(m[x]==0){
+        return x;
+    }else{
+       
+        return m[x]=getResult(m[x]);
+    }
+    
+}
+vector<long long> solution(long long k, vector<long long> room_number) {
+  
+    for(long long now : room_number){
+        
+            long long empty = getResult(now);
+            m[empty]=empty+1;
+            answer.push_back(empty);
+        
+    }
+  
+    return answer;
+}
