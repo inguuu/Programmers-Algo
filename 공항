@@ -1,0 +1,42 @@
+#include <iostream>
+#include <stdio.h>
+#include <map>
+#include <vector>
+
+using namespace std;
+
+map <int,int> m;
+
+vector <int> v;
+
+int getResult(int x){
+  if(m[x]==0){
+     return x;
+  }else{
+    return getResult(m[x]);
+  }
+}
+int main() {
+   int g,p;
+   scanf("%d %d",&g,&p);
+   int answer =0;
+   int a;
+   int empty;
+  int count =1;
+   for(int i=0;i<p;i++){
+        scanf("%d",&a);
+       v.push_back(a);
+   }
+   for(int i=0;i<v.size();i++){
+         empty=getResult(v[i]);
+         if(empty==1&&count==0)break;
+         if(empty==1)count=0;
+         if(empty==0)break;
+         m[v[i]]=empty;
+         m[empty] =empty-1;
+        ++answer;
+   }
+
+   printf("%d",answer);
+
+}
