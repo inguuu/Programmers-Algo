@@ -1,0 +1,30 @@
+#include <string>
+#include <vector>
+#include <stdio.h>
+
+using namespace std;
+
+/*
+2진 탐색으로 효율성 높이기
+n이상이면 무조건 답에서 2진탐색 사용 확인
+m 씩 줄이자
+*/
+// 기본적인 정확성 테스트 OK 10분 
+int solution(vector<int> stones, int k) {
+    int answer = 0;
+    int now =0;
+    while(1){
+        int now =1;
+        for(int i=0;i<stones.size();i++){
+            if(stones[i]>0){
+                now = 1;
+                --stones[i];
+            }
+            else{
+                ++now;
+                if(k<now)return answer;
+            } 
+        }
+        ++answer;
+    }
+}
